@@ -2,6 +2,7 @@ namespace ArrayListAndLinkedListBenchmarks;
 
 using BenchmarkDotNet.Attributes;
 
+[MemoryDiagnoser(false)]
 public class ListVsLinkedListVsLinkedListNodeBenchmark
 {
     private readonly Random _random = new();
@@ -13,14 +14,9 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
     [Params(10)]
     public int SizeOfAppendedArrays { get; set; }
 
-    [Params(-5)]
-    public int RandomLow { get; set; }
-
-    [Params(5)]
-    public int RandomHigh { get; set; }
-
-    public LinkedList<int> LinkedList { get; set; }
-    public LinkedList<int> PureLinkedList { get; set; }
+    public LinkedList<int> LinkedList { get; set; } = new LinkedList<int>();
+    public LLNode<int> PureLinkedList { get; set; }
+    public LLNode<int> LastNode { get; set; }
     public List<int> List { get; set; }
 
     [Params(100)]
@@ -29,18 +25,20 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
     [GlobalSetup]
     public void Prepare()
     {
-        // set up initial list/linkedlist size
-        LinkedList = new LinkedList<int>();
-        for (int i = 0; i < ListSize; i++)
+        // if LinkedList size is not zero then we assume that
+        // LinkedList is supplied and it is about testing
+        if (LinkedList.Count == 0)
         {
-            LinkedList.AddLast(i);
+            for (int i = 0; i < ListSize; i++)
+            {
+                LinkedList.AddLast(i);
+            }
         }
 
-        PureLinkedList = new LinkedList<int>();
-        for (int i = 0; i < ListSize; i++)
-        {
-            PureLinkedList.AddLast(i);
-        }
+        (LLNode<int> nodes, LLNode<int> lastNode) populateResult = PopulateLinkedListNodes(
+            ListSize, null!);
+        PureLinkedList = populateResult.nodes;
+        LastNode = populateResult.lastNode;
 
         List = new List<int>(ListSize);
         for (int i = 0; i < ListSize; i++)
@@ -48,16 +46,20 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
             List.Insert(i, i);
         }
 
-        // prepare the arrays to be appended to the original lists/arrays
-        for (int i = 0; i < AmountOfChanges; i++)
+        // if count is not zero then we assume the changes dictionary is
+        // provided for example testing purposes
+        if (Changes.Count == 0)
         {
-            int[] singleArray = new int[SizeOfAppendedArrays];
-            for (int j = 0; j < SizeOfAppendedArrays - 1; j++)
+            for (int i = 1; i < AmountOfChanges + 1; i++)
             {
-                singleArray[j] = j;
-            }
+                int[] singleArray = new int[SizeOfAppendedArrays];
+                for (int j = 0; j < SizeOfAppendedArrays; j++)
+                {
+                    singleArray[j] = i * 1000 + j;
+                }
 
-            Changes.Add(_random.Next(RandomLow, RandomHigh), singleArray);
+                Changes.Add(i, singleArray);
+            }
         }
 
 
@@ -65,38 +67,57 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
         Console.WriteLine("Changes size: " + Changes.Count);
     }
 
+    private (LLNode<int> node, LLNode<int> lastNode) PopulateLinkedListNodesRealValues(
+        int count, int[] array, LLNode<int> previous)
+    {
+        LLNode<int> node = new LLNode<int>();
+        node.Value = array[count];
+        node.Previous = previous;
+        if (count > 0)
+        {
+            (LLNode<int> nodes, LLNode<int> lastNode) s = PopulateLinkedListNodesRealValues(
+                count - 1, array, node);
+            node.Next = s.nodes;
+            return (node, s.lastNode);
+        }
+
+        return (node, node);
+    }
+
+    private (LLNode<int> nodes, LLNode<int> lastNode) PopulateLinkedListNodes(int count, LLNode<int> previous)
+    {
+        LLNode<int> node = new LLNode<int>();
+        node.Value = count;
+        node.Previous = previous;
+        if (count > 0)
+        {
+            (LLNode<int> nodes, LLNode<int> lastNode) s = PopulateLinkedListNodes(count - 1, node);
+            node.Next = s.nodes;
+            return (node, s.lastNode);
+        }
+
+        return (node, node);
+    }
+
     [Benchmark]
     public void AddChangesToLinkedList()
     {
-        int startPosition = ListSize / 2;
-
         LinkedListNode<int> StartNode = LinkedList.First;
-        for (int i = 0; i < startPosition; i++)
-        {
-            StartNode = StartNode.Next;
-        }
 
         foreach (KeyValuePair<int, int[]> change in Changes)
         {
-            LinkedListNode<int> Node = StartNode;
-            if (change.Key < 0)
-            {
-                for (int i = 0; i > change.Key; i--)
-                {
-                    Node = Node.Previous;
-                }
-            }
-
             if (change.Key > 0)
             {
                 for (int i = 0; i < change.Key; i++)
                 {
-                    Node = Node.Next;
+                    StartNode = StartNode.Next;
                 }
             }
 
-            LinkedList<int> appendedList = new LinkedList<int>(change.Value);
-            LinkedList.AddAfter(Node, appendedList.First);
+            foreach (int i in change.Value)
+            {
+                LinkedList.AddAfter(StartNode!, i);
+            }
         }
     }
 
@@ -115,37 +136,32 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
     }
 
     [Benchmark]
-    public void AddChangesToLinkedListNodes()
+    public void AddChangesToPureLinkedListNodes()
     {
-        int startIndex = ListSize / 2;
-
-        LinkedListNode<int> StartNode = PureLinkedList.First;
-        for (int i = 0; i < startIndex; i++)
-        {
-            StartNode = StartNode.Next;
-        }
+        LLNode<int> StartNode = PureLinkedList;
 
         foreach (KeyValuePair<int, int[]> change in Changes)
         {
-            LinkedListNode<int> Node = StartNode;
-            if (change.Key < 0)
-            {
-                for (int i = 0; i > change.Key; i--)
-                {
-                    Node = Node.Previous;
-                }
-            }
-
             if (change.Key > 0)
             {
                 for (int i = 0; i < change.Key; i++)
                 {
-                    Node = Node.Next;
+                    StartNode = StartNode.Next;
                 }
             }
 
-            LinkedList<int> appendedList = new LinkedList<int>(change.Value);
-            // create your own node
+            (LLNode<int> nodes, LLNode<int> lastNode) convertResult =
+                PopulateLinkedListNodesRealValues(change.Value.Length - 1, change.Value, null!);
+            LLNode<int> oldLastOne = StartNode.Next;
+            StartNode.Next = convertResult.nodes;
+            convertResult.lastNode.Next = oldLastOne;
         }
+    }
+
+    public class LLNode<T>
+    {
+        public LLNode<T>? Previous { get; set; }
+        public LLNode<T>? Next { get; set; }
+        public T? Value { get; set; }
     }
 }
