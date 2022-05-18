@@ -99,6 +99,10 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
         return (node, node);
     }
 
+    /// <summary>
+    ///     It adds changes to a LinkedList one by one.
+    ///     The LinkedList is using the data structure provided by MS.
+    /// </summary>
     [Benchmark]
     public void AddChangesToLinkedList()
     {
