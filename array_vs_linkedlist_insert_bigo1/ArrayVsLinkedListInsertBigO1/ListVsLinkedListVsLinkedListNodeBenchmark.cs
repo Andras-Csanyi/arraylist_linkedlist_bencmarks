@@ -22,7 +22,7 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
     public LLNode<int> LastNode { get; set; }
     public List<int> List { get; set; }
 
-    [Params(10000, 1000000)]
+    [Params(10000, 100000)]
     public int ListSize { get; set; }
 
     [GlobalSetup]
