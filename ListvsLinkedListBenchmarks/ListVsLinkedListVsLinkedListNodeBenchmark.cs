@@ -104,7 +104,7 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
     ///     The LinkedList is using the data structure provided by MS.
     /// </summary>
     [Benchmark]
-    public void AddChangesToLinkedList()
+    public void AddChangesToLinkedListOneByOne()
     {
         LinkedListNode<int> StartNode = LinkedList.First;
 
@@ -125,10 +125,29 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
         }
     }
 
-    [Benchmark]
+    /// <summary>
+    ///     It inserts values into an array.
+    ///     The new value inserts happen one-by-one.
+    ///     It uses List<T> type.
+    /// </summary>
+    // [Benchmark]
+    public void AddChangesToListOneByOne()
+    {
+        int startIndex = 1;
+        foreach (KeyValuePair<int, int[]> singleChange in Changes)
+        {
+            startIndex += singleChange.Key;
+            foreach (int i in singleChange.Value)
+            {
+                List.Insert(startIndex, i);
+            }
+        }
+    }
+
+    // [Benchmark]
     public void AddChangesToList()
     {
-        int startIndex = ListSize / 2;
+        int startIndex = 0;
         foreach (KeyValuePair<int, int[]> singleChangeKeyValuePair in Changes)
         {
             int workingIndex = startIndex + singleChangeKeyValuePair.Key;
@@ -139,7 +158,7 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
         }
     }
 
-    [Benchmark]
+    // [Benchmark]
     public void AddChangesToPureLinkedListNodes()
     {
         LLNode<int> StartNode = PureLinkedList;

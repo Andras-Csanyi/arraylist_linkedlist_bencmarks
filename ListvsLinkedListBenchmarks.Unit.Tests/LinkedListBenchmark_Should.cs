@@ -24,7 +24,7 @@ public class LinkedListBenchmark_Should
         listVsLinkedListVsLinkedListNodeBenchmark.LinkedList.Count.Should().Be(
             listVsLinkedListVsLinkedListNodeBenchmark.ListSize);
 
-        listVsLinkedListVsLinkedListNodeBenchmark.AddChangesToLinkedList();
+        listVsLinkedListVsLinkedListNodeBenchmark.AddChangesToLinkedListOneByOne();
         listVsLinkedListVsLinkedListNodeBenchmark.LinkedList.Count.Should().Be(
             listVsLinkedListVsLinkedListNodeBenchmark.ListSize +
             listVsLinkedListVsLinkedListNodeBenchmark.AmountOfChanges *
@@ -52,7 +52,7 @@ public class LinkedListBenchmark_Should
 
         int[] expectedResult = new[] { 0, 1, 104, 103, 204, 203, 202, 201, 102, 101, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-        benchmarkSetup.AddChangesToLinkedList();
+        benchmarkSetup.AddChangesToLinkedListOneByOne();
         for (int i = 0; i < benchmarkSetup.LinkedList.Count; i++)
         {
             benchmarkSetup.LinkedList.ElementAt(i).Should().Be(expectedResult[i]);
