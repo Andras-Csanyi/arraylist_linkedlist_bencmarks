@@ -2,8 +2,7 @@ namespace ArrayListAndLinkedListBenchmarks;
 
 using BenchmarkDotNet.Attributes;
 
-[MemoryDiagnoser]
-[ShortRunJob]
+[MemoryDiagnoser(false)]
 public class ListVsLinkedListVsLinkedListNodeBenchmark
 {
     private readonly Random _random = new();
