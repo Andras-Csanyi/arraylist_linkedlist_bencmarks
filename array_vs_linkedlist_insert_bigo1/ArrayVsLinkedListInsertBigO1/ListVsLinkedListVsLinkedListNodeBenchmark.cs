@@ -141,6 +141,10 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
         }
     }
 
+    /// <summary>
+    ///     It merges the changes into the linked list as range.
+    ///     It uses a custom linked list type.
+    /// </summary>
     [Benchmark]
     public void AddChangesToLLNodesAsRanges()
     {
