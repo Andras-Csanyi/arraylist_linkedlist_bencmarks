@@ -3,17 +3,16 @@ namespace ArrayListAndLinkedListBenchmarks;
 using BenchmarkDotNet.Attributes;
 
 [MemoryDiagnoser]
-[SimpleJob(launchCount: 1, warmupCount: 3, targetCount: 5, invocationCount: 100, id: "Quick")]
 [ShortRunJob]
 public class ListVsLinkedListVsLinkedListNodeBenchmark
 {
     private readonly Random _random = new();
     public Dictionary<int, int[]> Changes { get; set; } = new();
 
-    [Params(10)]
+    [Params(100)]
     public int AmountOfChanges { get; set; }
 
-    [Params(10)]
+    [Params(100)]
     public int SizeOfAppendedArrays { get; set; }
 
     public LinkedList<int> LinkedList { get; set; } = new();
@@ -21,7 +20,7 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
     public LLNode<int> LastNode { get; set; }
     public List<int> List { get; set; }
 
-    [Params(100)]
+    [Params(1000)]
     public int ListSize { get; set; }
 
     [GlobalSetup]
