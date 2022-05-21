@@ -6,31 +6,8 @@ using ArrayListAndLinkedListBenchmarks;
 using FluentAssertions;
 using Xunit;
 
-public class LinkedListBenchmark_Should
+public class AddChangesToLinkedListOneByOne_Should
 {
-    [Fact]
-    public void MakeTheChanges()
-    {
-        ListVsLinkedListVsLinkedListNodeBenchmark listVsLinkedListVsLinkedListNodeBenchmark =
-            new ListVsLinkedListVsLinkedListNodeBenchmark
-            {
-                AmountOfChanges = 10,
-                ListSize = 10,
-                SizeOfAppendedArrays = 10
-            };
-
-        listVsLinkedListVsLinkedListNodeBenchmark.Prepare();
-        listVsLinkedListVsLinkedListNodeBenchmark.Changes.Count.Should().Be(10);
-        listVsLinkedListVsLinkedListNodeBenchmark.LinkedList.Count.Should().Be(
-            listVsLinkedListVsLinkedListNodeBenchmark.ListSize);
-
-        listVsLinkedListVsLinkedListNodeBenchmark.AddChangesToLinkedListOneByOne();
-        listVsLinkedListVsLinkedListNodeBenchmark.LinkedList.Count.Should().Be(
-            listVsLinkedListVsLinkedListNodeBenchmark.ListSize +
-            listVsLinkedListVsLinkedListNodeBenchmark.AmountOfChanges *
-            listVsLinkedListVsLinkedListNodeBenchmark.SizeOfAppendedArrays);
-    }
-
     [Fact]
     public void MakeTheChangesInTheRightOrder()
     {

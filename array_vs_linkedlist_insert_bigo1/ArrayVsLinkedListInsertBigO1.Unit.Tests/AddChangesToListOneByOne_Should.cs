@@ -8,7 +8,7 @@ using Xunit;
 public class AddChangesToListOneByOne_Should
 {
     [Fact]
-    public void AddChangestoList_InTheRightOrder()
+    public void MakeTheChangesInTheRightOrder()
     {
         Dictionary<int, int[]> changes = new Dictionary<int, int[]>();
         changes.Add(1, new int[] { 101, 102, 103, 104 });
