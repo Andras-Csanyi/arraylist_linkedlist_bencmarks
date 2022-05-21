@@ -3,9 +3,9 @@ namespace ArrayListAndLinkedListBenchmarks;
 using BenchmarkDotNet.Attributes;
 
 [MemoryDiagnoser(false)]
+[SimpleJob(launchCount:10, warmupCount:10, targetCount:30)]
 public class ListVsLinkedListVsLinkedListNodeBenchmark
 {
-    private readonly Random _random = new();
     public Dictionary<int, int[]> Changes { get; set; } = new();
 
     [Params(100)]
@@ -49,10 +49,6 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
 
                 Changes.Add(i, singleArray);
             }
-
-
-        Console.WriteLine("LinkedList size: " + LinkedList.Count);
-        Console.WriteLine("Changes size: " + Changes.Count);
     }
 
     private (LLNode<int> node, LLNode<int> lastNode) PopulateLinkedListNodesRealValues(
