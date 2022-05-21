@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListvsLinkedListBenchmarks", "ListvsLinkedListBenchmarks\ListvsLinkedListBenchmarks.csproj", "{D6519020-6786-4481-9BA2-C549CB81EF0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayVsLinkedListInsertBigO1", "ArrayVsLinkedListInsertBigO1\ArrayVsLinkedListInsertBigO1.csproj", "{D6519020-6786-4481-9BA2-C549CB81EF0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListvsLinkedListBenchmarks.Unit.Tests", "ListvsLinkedListBenchmarks.Unit.Tests\ListvsLinkedListBenchmarks.Unit.Tests.csproj", "{9C28A01E-BB22-40E1-8F72-0955F093DC0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayVsLinkedListInsertBigO1.Unit.Tests", "ArrayVsLinkedListInsertBigO1.Unit.Tests\ArrayVsLinkedListInsertBigO1.Unit.Tests.csproj", "{9C28A01E-BB22-40E1-8F72-0955F093DC0A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{545D980D-1191-4AF9-89F7-5482619F1189}"
 	ProjectSection(SolutionItems) = preProject
