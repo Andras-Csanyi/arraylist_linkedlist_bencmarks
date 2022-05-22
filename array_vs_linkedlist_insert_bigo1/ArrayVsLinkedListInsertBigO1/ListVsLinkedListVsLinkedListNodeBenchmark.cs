@@ -11,10 +11,10 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
 {
     public Dictionary<int, int[]> Changes { get; set; } = new();
 
-    [Params(100, 1000)]
+    [Params(100, 1000, 10000)]
     public int AmountOfChanges { get; set; }
 
-    [Params(100, 1000)]
+    [Params(100)]
     public int SizeOfAppendedArrays { get; set; }
 
     public LinkedList<int> LinkedList { get; set; } = new();
@@ -22,7 +22,7 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
     public LLNode<int> LastNode { get; set; }
     public List<int> List { get; set; }
 
-    [Params(10000, 100000)]
+    [Params(1000)]
     public int ListSize { get; set; }
 
     [GlobalSetup]
