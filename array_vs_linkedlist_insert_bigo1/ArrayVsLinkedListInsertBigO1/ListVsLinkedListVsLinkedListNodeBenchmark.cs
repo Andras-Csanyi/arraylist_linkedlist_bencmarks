@@ -9,49 +9,57 @@ using BenchmarkDotNet.Attributes;
 [MinColumn, MaxColumn, MeanColumn, MedianColumn]
 public class ListVsLinkedListVsLinkedListNodeBenchmark
 {
-    public Dictionary<int, int[]> Changes { get; set; } = new();
+    public Dictionary<int, int[]> Changes { get; set; }
 
-    [Params(100, 1000, 10000)]
+    [Params(100, 200, 300, 400, 500, 1000, 2000, 3000, 4000, 5000, 10000, 15000, 20000)]
     public int AmountOfChanges { get; set; }
 
     [Params(100)]
     public int SizeOfAppendedArrays { get; set; }
 
-    public LinkedList<int> LinkedList { get; set; } = new();
+    public LinkedList<int> LinkedList { get; set; }
     public LLNode<int> PureLinkedList { get; set; }
-    public LLNode<int> LastNode { get; set; }
     public List<int> List { get; set; }
 
-    [Params(1000)]
+    [Params(10000)]
     public int ListSize { get; set; }
 
     [GlobalSetup]
     public void Prepare()
     {
-        // if LinkedList size is not zero then we assume that
-        // LinkedList is supplied and it is about testing
-        if (LinkedList.Count == 0)
-            for (int i = 0; i < ListSize; i++)
-                LinkedList.AddLast(i);
+        LinkedList = new LinkedList<int>();
+        for (int i = 0; i < ListSize; i++)
+        {
+            LinkedList.AddLast(i);
+        }
 
         (LLNode<int> nodes, LLNode<int> lastNode) populateResult = PopulateLinkedListNodes(
             ListSize, null!);
         PureLinkedList = populateResult.nodes;
-        LastNode = populateResult.lastNode;
 
-        List = new List<int>(ListSize);
-        for (int i = 0; i < ListSize; i++) List.Insert(i, i);
+        List = new List<int>();
+        for (int i = 0; i < ListSize; i++)
+        {
+            List.Insert(i, i);
+        }
 
-        // if count is not zero then we assume the changes dictionary is
-        // provided for example testing purposes
-        if (Changes.Count == 0)
-            for (int i = 1; i < AmountOfChanges + 1; i++)
-            {
-                int[] singleArray = new int[SizeOfAppendedArrays];
-                for (int j = 0; j < SizeOfAppendedArrays; j++) singleArray[j] = i * 1000 + j;
+        Changes = new Dictionary<int, int[]>();
+        for (int i = 1; i < AmountOfChanges + 1; i++)
+        {
+            int[] singleArray = new int[SizeOfAppendedArrays];
+            for (int j = 0; j < SizeOfAppendedArrays; j++) singleArray[j] = i * 1000 + j;
 
-                Changes.Add(i, singleArray);
-            }
+            Changes.Add(i, singleArray);
+        }
+    }
+
+    [GlobalCleanup]
+    public void CleanUp()
+    {
+        LinkedList.Clear();
+        PureLinkedList = null;
+        List.Clear();
+        Changes.Clear();
     }
 
     private (LLNode<int> node, LLNode<int> lastNode) PopulateLinkedListNodesRealValues(
@@ -100,7 +108,14 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
             if (change.Key > 0)
                 for (int i = 0; i < change.Key; i++)
                 {
-                    StartNode = StartNode.Next;
+                    if (StartNode.Next is not null)
+                    {
+                        StartNode = StartNode.Next;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
 
             foreach (int i in change.Value)

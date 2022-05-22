@@ -35,4 +35,20 @@ public class AddChangesToLinkedListOneByOne_Should
             benchmarkSetup.LinkedList.ElementAt(i).Should().Be(expectedResult[i]);
         }
     }
+
+    [Fact]
+    public void MakeTheChanges()
+    {
+        ListVsLinkedListVsLinkedListNodeBenchmark benchmark = new ListVsLinkedListVsLinkedListNodeBenchmark
+        {
+            AmountOfChanges = 100,
+            ListSize = 100,
+            SizeOfAppendedArrays = 100
+        };
+        
+        benchmark.Prepare();
+        benchmark.AddChangesToLinkedListOneByOne();
+
+        benchmark.LinkedList.Count.Should().Be(10100);
+    }
 }
