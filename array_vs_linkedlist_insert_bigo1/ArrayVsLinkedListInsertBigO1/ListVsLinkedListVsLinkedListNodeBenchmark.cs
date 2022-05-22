@@ -170,10 +170,19 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
         foreach (KeyValuePair<int, int[]> change in Changes)
         {
             if (change.Key > 0)
+            {
                 for (int i = 0; i < change.Key; i++)
                 {
-                    StartNode = StartNode.Next;
+                    if (StartNode.Next is not null)
+                    {
+                        StartNode = StartNode.Next;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
+            }
 
             (LLNode<int> nodes, LLNode<int> lastNode) convertResult =
                 PopulateLinkedListNodesRealValues(change.Value.Length - 1, change.Value, null!);
