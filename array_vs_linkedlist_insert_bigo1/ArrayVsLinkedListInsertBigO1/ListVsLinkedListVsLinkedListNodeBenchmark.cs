@@ -136,8 +136,15 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
         int startIndex = 1;
         foreach (KeyValuePair<int, int[]> singleChange in Changes)
         {
-            startIndex += singleChange.Key;
-            foreach (int i in singleChange.Value) List.Insert(startIndex, i);
+            if (startIndex + singleChange.Key < List.Count)
+            {
+                startIndex += singleChange.Key;
+            }
+
+            foreach (int i in singleChange.Value)
+            {
+                List.Insert(startIndex, i);
+            }
         }
     }
 
@@ -154,7 +161,9 @@ public class ListVsLinkedListVsLinkedListNodeBenchmark
         {
             startIndex += singleChangeKeyValuePair.Key;
             if (0 < startIndex && startIndex < List.Count - 1)
+            {
                 List.InsertRange(startIndex, singleChangeKeyValuePair.Value);
+            }
         }
     }
 
