@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>ArrayListAndLinkedListBenchmarks.ListVsLinkedListVsLinkedListNodeBenchmark-20220522-132638</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.13.1, OS=ubuntu 20.04
+AMD EPYC 7282, 1 CPU, 8 logical and 8 physical cores
+.NET SDK=6.0.300
+  [Host]   : .NET 6.0.5 (6.0.522.21309), X64 RyuJIT
+  ShortRun : .NET 6.0.5 (6.0.522.21309), X64 RyuJIT
+</code></pre>
+<pre><code>Job=ShortRun  IterationCount=3  LaunchCount=1  
+WarmupCount=3  
+</code></pre>
+
+<table>
+<thead><tr><th>                  Method</th><th>AmountOfChanges</th><th>SizeOfAppendedArrays</th><th>ListSize</th><th>      Mean</th><th>     Error</th><th>   StdDev</th><th>    Median</th><th>       Min</th><th>       Max</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>AddChangesToLinkedListOneByOne</td><td>100</td><td>100</td><td>10000</td><td>4.319 ms</td><td>4.466 ms</td><td>0.2448 ms</td><td>4.320 ms</td><td>4.074 ms</td><td>4.563 ms</td><td>480,003 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>100</td><td>100</td><td>10000</td><td>1,497.844 ms</td><td>4,501.847 ms</td><td>246.7614 ms</td><td>1,504.771 ms</td><td>1,247.692 ms</td><td>1,741.069 ms</td><td>51 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>100</td><td>100</td><td>10000</td><td>158.909 ms</td><td>506.517 ms</td><td>27.7639 ms</td><td>156.082 ms</td><td>132.667 ms</td><td>187.978 ms</td><td>13 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>100</td><td>100</td><td>10000</td><td>3.191 ms</td><td>3.157 ms</td><td>0.1730 ms</td><td>3.244 ms</td><td>2.998 ms</td><td>3.331 ms</td><td>400,013 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>200</td><td>100</td><td>10000</td><td>7.200 ms</td><td>5.591 ms</td><td>0.3065 ms</td><td>7.169 ms</td><td>6.911 ms</td><td>7.521 ms</td><td>960,006 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>200</td><td>100</td><td>10000</td><td>1,176.965 ms</td><td>1,642.482 ms</td><td>90.0300 ms</td><td>1,194.795 ms</td><td>1,079.354 ms</td><td>1,256.746 ms</td><td>1,398,712 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>200</td><td>100</td><td>10000</td><td>298.058 ms</td><td>1,061.301 ms</td><td>58.1735 ms</td><td>286.586 ms</td><td>246.475 ms</td><td>361.113 ms</td><td>26 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>200</td><td>100</td><td>10000</td><td>3.120 ms</td><td>7.177 ms</td><td>0.3934 ms</td><td>3.326 ms</td><td>2.667 ms</td><td>3.368 ms</td><td>800,035 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>300</td><td>100</td><td>10000</td><td>9.898 ms</td><td>144.832 ms</td><td>7.9387 ms</td><td>5.667 ms</td><td>4.972 ms</td><td>19.056 ms</td><td>1,440,003 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>300</td><td>100</td><td>10000</td><td>2,140.295 ms</td><td>15,748.430 ms</td><td>863.2246 ms</td><td>1,711.062 ms</td><td>1,575.826 ms</td><td>3,133.998 ms</td><td>408 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>300</td><td>100</td><td>10000</td><td>321.032 ms</td><td>2,158.810 ms</td><td>118.3317 ms</td><td>312.076 ms</td><td>207.433 ms</td><td>443.588 ms</td><td>2,097,162 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>300</td><td>100</td><td>10000</td><td>3.960 ms</td><td>7.277 ms</td><td>0.3989 ms</td><td>4.143 ms</td><td>3.502 ms</td><td>4.234 ms</td><td>1,200,006 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>400</td><td>100</td><td>10000</td><td>6.834 ms</td><td>13.306 ms</td><td>0.7293 ms</td><td>6.805 ms</td><td>6.119 ms</td><td>7.577 ms</td><td>1,920,007 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>400</td><td>100</td><td>10000</td><td>2,414.852 ms</td><td>7,934.704 ms</td><td>434.9279 ms</td><td>2,415.215 ms</td><td>1,979.743 ms</td><td>2,849.599 ms</td><td>408 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>400</td><td>100</td><td>10000</td><td>837.838 ms</td><td>1,721.118 ms</td><td>94.3403 ms</td><td>848.815 ms</td><td>738.490 ms</td><td>926.210 ms</td><td>51 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>400</td><td>100</td><td>10000</td><td>4.997 ms</td><td>3.565 ms</td><td>0.1954 ms</td><td>5.043 ms</td><td>4.783 ms</td><td>5.166 ms</td><td>1,600,006 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>500</td><td>100</td><td>10000</td><td>8.619 ms</td><td>26.495 ms</td><td>1.4523 ms</td><td>9.409 ms</td><td>6.943 ms</td><td>9.505 ms</td><td>2,400,006 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>500</td><td>100</td><td>10000</td><td>3,801.739 ms</td><td>11,555.330 ms</td><td>633.3866 ms</td><td>3,792.459 ms</td><td>3,173.044 ms</td><td>4,439.715 ms</td><td>408 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>500</td><td>100</td><td>10000</td><td>1,287.202 ms</td><td>4,185.405 ms</td><td>229.4162 ms</td><td>1,266.942 ms</td><td>1,068.588 ms</td><td>1,526.076 ms</td><td>51 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>500</td><td>100</td><td>10000</td><td>5.905 ms</td><td>5.238 ms</td><td>0.2871 ms</td><td>5.950 ms</td><td>5.597 ms</td><td>6.166 ms</td><td>2,000,006 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>1000</td><td>100</td><td>10000</td><td>18.636 ms</td><td>33.578 ms</td><td>1.8405 ms</td><td>18.178 ms</td><td>17.067 ms</td><td>20.662 ms</td><td>4,800,026 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>1000</td><td>100</td><td>10000</td><td>15,204.707 ms</td><td>68,839.457 ms</td><td>3,773.3229 ms</td><td>14,777.190 ms</td><td>11,663.351 ms</td><td>19,173.581 ms</td><td>408 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>1000</td><td>100</td><td>10000</td><td>4,595.169 ms</td><td>13,106.219 ms</td><td>718.3961 ms</td><td>4,622.635 ms</td><td>3,863.434 ms</td><td>5,299.438 ms</td><td>27 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>1000</td><td>100</td><td>10000</td><td>11.090 ms</td><td>9.332 ms</td><td>0.5115 ms</td><td>11.060 ms</td><td>10.595 ms</td><td>11.617 ms</td><td>4,000,013 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>2000</td><td>100</td><td>10000</td><td>58.877 ms</td><td>97.142 ms</td><td>5.3247 ms</td><td>57.369 ms</td><td>54.468 ms</td><td>64.793 ms</td><td>9,600,051 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>2000</td><td>100</td><td>10000</td><td>91,169.327 ms</td><td>749,377.597 ms</td><td>41,075.9148 ms</td><td>88,663.766 ms</td><td>51,403.546 ms</td><td>133,440.669 ms</td><td>552 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>2000</td><td>100</td><td>10000</td><td>17,383.059 ms</td><td>39,869.088 ms</td><td>2,185.3592 ms</td><td>17,350.877 ms</td><td>15,213.968 ms</td><td>19,584.331 ms</td><td>93 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>2000</td><td>100</td><td>10000</td><td>52.584 ms</td><td>59.855 ms</td><td>3.2809 ms</td><td>50.708 ms</td><td>50.670 ms</td><td>56.372 ms</td><td>8,000,051 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>3000</td><td>100</td><td>10000</td><td>156.797 ms</td><td>259.583 ms</td><td>14.2286 ms</td><td>152.366 ms</td><td>145.311 ms</td><td>172.714 ms</td><td>14,400,051 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>3000</td><td>100</td><td>10000</td><td>186,763.299 ms</td><td>1,212,748.522 ms</td><td>66,474.8387 ms</td><td>187,296.399 ms</td><td>120,023.513 ms</td><td>252,969.984 ms</td><td>72 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>3000</td><td>100</td><td>10000</td><td>34,064.359 ms</td><td>105,395.307 ms</td><td>5,777.0724 ms</td><td>34,451.749 ms</td><td>28,103.341 ms</td><td>39,637.987 ms</td><td>93 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>3000</td><td>100</td><td>10000</td><td>68.665 ms</td><td>60.133 ms</td><td>3.2961 ms</td><td>69.924 ms</td><td>64.924 ms</td><td>71.145 ms</td><td>12,000,051 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>4000</td><td>100</td><td>10000</td><td>155.940 ms</td><td>82.165 ms</td><td>4.5037 ms</td><td>155.092 ms</td><td>151.921 ms</td><td>160.808 ms</td><td>19,200,163 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>4000</td><td>100</td><td>10000</td><td>337,444.386 ms</td><td>1,654,214.549 ms</td><td>90,673.0814 ms</td><td>323,907.212 ms</td><td>254,300.981 ms</td><td>434,124.965 ms</td><td>552 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>4000</td><td>100</td><td>10000</td><td>50,044.155 ms</td><td>113,172.734 ms</td><td>6,203.3795 ms</td><td>48,607.586 ms</td><td>44,685.095 ms</td><td>56,839.784 ms</td><td>69 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>4000</td><td>100</td><td>10000</td><td>181.203 ms</td><td>193.616 ms</td><td>10.6127 ms</td><td>177.859 ms</td><td>172.666 ms</td><td>193.085 ms</td><td>16,000,680 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>5000</td><td>100</td><td>10000</td><td>272.400 ms</td><td>945.690 ms</td><td>51.8365 ms</td><td>280.049 ms</td><td>217.164 ms</td><td>319.987 ms</td><td>24,000,163 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>5000</td><td>100</td><td>10000</td><td>470,648.404 ms</td><td>2,595,925.180 ms</td><td>142,291.4187 ms</td><td>464,369.285 ms</td><td>331,600.491 ms</td><td>615,975.436 ms</td><td>33,554,996 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>5000</td><td>100</td><td>10000</td><td>68,689.733 ms</td><td>238,147.667 ms</td><td>13,053.6772 ms</td><td>68,332.648 ms</td><td>55,818.263 ms</td><td>81,918.290 ms</td><td>51 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>5000</td><td>100</td><td>10000</td><td>245.503 ms</td><td>773.276 ms</td><td>42.3859 ms</td><td>245.429 ms</td><td>203.154 ms</td><td>287.926 ms</td><td>20,000,048 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>10000</td><td>100</td><td>10000</td><td>1,057.627 ms</td><td>15,838.929 ms</td><td>868.1852 ms</td><td>584.119 ms</td><td>529.143 ms</td><td>2,059.618 ms</td><td>48,001,387 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>10000</td><td>100</td><td>10000</td><td>1,677,680.943 ms</td><td>8,106,651.224 ms</td><td>444,352.9083 ms</td><td>1,670,419.527 ms</td><td>1,237,003.244 ms</td><td>2,125,620.059 ms</td><td>67,109,824 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>10000</td><td>100</td><td>10000</td><td>167,542.256 ms</td><td>962,901.976 ms</td><td>52,779.9065 ms</td><td>176,982.138 ms</td><td>110,679.386 ms</td><td>214,965.243 ms</td><td>93 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>10000</td><td>100</td><td>10000</td><td>172.065 ms</td><td>1,819.660 ms</td><td>99.7417 ms</td><td>140.335 ms</td><td>92.049 ms</td><td>283.812 ms</td><td>40,000,408 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>15000</td><td>100</td><td>10000</td><td>1,272.350 ms</td><td>1,413.048 ms</td><td>77.4539 ms</td><td>1,269.570 ms</td><td>1,196.324 ms</td><td>1,351.157 ms</td><td>72,000,272 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>15000</td><td>100</td><td>10000</td><td>1,079,820.543 ms</td><td>5,088,481.174 ms</td><td>278,916.8234 ms</td><td>1,057,266.468 ms</td><td>812,865.520 ms</td><td>1,369,329.642 ms</td><td>816 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>15000</td><td>100</td><td>10000</td><td>166,766.835 ms</td><td>1,073,249.395 ms</td><td>58,828.4209 ms</td><td>165,553.072 ms</td><td>108,554.688 ms</td><td>226,192.746 ms</td><td>93 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>15000</td><td>100</td><td>10000</td><td>247.001 ms</td><td>598.514 ms</td><td>32.8066 ms</td><td>233.553 ms</td><td>223.055 ms</td><td>284.395 ms</td><td>60,000,272 B</td>
+</tr><tr><td>AddChangesToLinkedListOneByOne</td><td>20000</td><td>100</td><td>10000</td><td>581.525 ms</td><td>1,326.356 ms</td><td>72.7021 ms</td><td>621.331 ms</td><td>497.613 ms</td><td>625.632 ms</td><td>96,001,372 B</td>
+</tr><tr><td>AddChangesToListOneByOne</td><td>20000</td><td>100</td><td>10000</td><td>1,120,799.038 ms</td><td>5,788,926.326 ms</td><td>317,310.5858 ms</td><td>1,120,355.311 ms</td><td>803,710.548 ms</td><td>1,438,331.254 ms</td><td>816 B</td>
+</tr><tr><td>AddChangesToListAsRanges</td><td>20000</td><td>100</td><td>10000</td><td>172,870.537 ms</td><td>1,287,893.127 ms</td><td>70,593.7681 ms</td><td>172,547.020 ms</td><td>102,439.084 ms</td><td>243,625.508 ms</td><td>93 B</td>
+</tr><tr><td>AddChangesToLLNodesAsRanges</td><td>20000</td><td>100</td><td>10000</td><td>663.092 ms</td><td>9,630.072 ms</td><td>527.8568 ms</td><td>466.825 ms</td><td>261.482 ms</td><td>1,260.967 ms</td><td>80,000,816 B</td>
+</tr></tbody></table>
+</body>
+</html>
